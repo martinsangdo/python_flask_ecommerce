@@ -26,6 +26,6 @@ app.include_router(user_router)
 def home(request: Request):
     return templates.TemplateResponse(
         request,
-        "index.html",
+        "ogani/index.html",
         {"request": request}
     )
