@@ -37,9 +37,9 @@ print(convert_date_format("31-12-2023", "%d-%m-%Y"))    # Output: 2023-12-31
 print(convert_date_format("Jan 15, 2024", "%b %d, %Y")) # Output: 2024-01-15
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
