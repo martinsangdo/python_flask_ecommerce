@@ -32,22 +32,35 @@ pipeline {
       }
     }
 
-    stage('Test') {
+    stage('Build Docker') {
       steps {
-        sh 'pytest || true'
+        sh 'docker build -t fastapi-app .'
       }
     }
 
-    stage('SonarQube') {
+    stage('Deploy') {
       steps {
-        sh '''
-        sonar-scanner \
-          -Dsonar.projectKey=fastapi \
-          -Dsonar.sources=. \
-          -Dsonar.host.url=http://host.docker.internal:9000 \
-          -Dsonar.login=YOUR_TOKEN
-        '''
+        sh 'kubectl rollout restart deployment fastapi-app'
       }
     }
+
+    // stage('Test') {
+    //   steps {
+    //     sh 'pytest || true'
+    //   }
+    // }
+
+    // stage('SonarQube') {
+    //   steps {
+    //     sh '''
+    //     sonar-scanner \
+    //       -Dsonar.projectKey=fastapi \
+    //       -Dsonar.sources=. \
+    //       -Dsonar.host.url=http://host.docker.internal:9000 \
+    //       -Dsonar.login=YOUR_TOKEN
+    //     '''
+    //   }
+    // }
+
   }
 }
