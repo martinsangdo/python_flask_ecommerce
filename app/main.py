@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 env = Environment(
     loader=FileSystemLoader(os.path.join(BASE_DIR, "templates")),
     autoescape=select_autoescape(["html", "xml"]),
-    cache_size=0   # 🚨 DISABLE CACHE (this fixes your error)
+    cache_size=0
 )
 templates = Jinja2Templates(env=env)
 
