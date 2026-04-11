@@ -16,7 +16,9 @@ pipeline {
 
     stage('Install') {
       steps {
-        sh 'pip install -r requirements.txt'
+        dir('python_flask_ecommerce') {
+          sh 'pip install -r requirements.txt'
+        }
       }
     }
 
