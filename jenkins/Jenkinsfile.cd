@@ -1,0 +1,21 @@
+pipeline {
+  agent any
+
+  parameters {
+    string(name: 'TAG', defaultValue: 'latest')
+  }
+
+  stages {
+    stage('Build') {
+      steps {
+        sh 'docker build -t fastapi-app:$TAG .'
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        sh 'kubectl apply -f k8s/'
+      }
+    }
+  }
+}
