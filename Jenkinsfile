@@ -8,9 +8,14 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git credentialsId: 'github-token',
-            branch: 'develop',
-            url: 'https://github.com/martinsangdo/python_flask_ecommerce.git'
+        checkout([
+          $class: 'GitSCM',
+          branches: [[name: '*/develop']],
+          userRemoteConfigs: [[
+            url: 'https://github.com/martinsangdo/python_flask_ecommerce.git',
+            credentialsId: 'github-token'
+          ]]
+        ])
       }
     }
 
