@@ -25,7 +25,9 @@ pipeline {
     stage('Install Dependencies') {
       steps {
         sh '''
-        docker run --rm -v $PWD:/app -w /app python:3.10 \
+        docker run --rm \
+          -v $PWD:/app \
+          -w /app python:3.10 \
           pip install -r requirements.txt
         '''
       }
