@@ -1,5 +1,9 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'python:3.10'
+    }
+  }
 
   stages {
     stage('Checkout') {
@@ -22,11 +26,20 @@ pipeline {
       }
     }
 
-    stage('Install') {
+    stage('Install Dependencies') {
       steps {
-        sh 'pip install -r requirements.txt'
+        sh '''
+        docker run --rm -v $PWD:/app -w /app python:3.10 \
+          pip install -r requirements.txt
+        '''
       }
     }
+
+    // stage('Install') {
+    //   steps {
+    //     sh 'pip install -r requirements.txt'
+    //   }
+    // }
 
     stage('Build Docker') {
       steps {
