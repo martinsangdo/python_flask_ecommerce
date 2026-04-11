@@ -1,11 +1,16 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'python:3.10'
+    }
+  }
 
   stages {
     stage('Checkout') {
       steps {
-        git branch: 'develop',
-            url: 'https://github.com/YOUR_REPO.git'
+        git credentialsId: 'github-token',
+            branch: 'develop',
+            url: 'https://github.com/martinsangdo/python_flask_ecommerce.git'
       }
     }
 
