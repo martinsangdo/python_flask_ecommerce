@@ -10,4 +10,4 @@ def calculate_age(birth_year):
     return age
 
 my_age = calculate_age(2000)
-print(my_age)
+# print(my_age)
