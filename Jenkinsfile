@@ -19,6 +19,13 @@ pipeline {
       }
     }
 
+    stage('Debug Files') {
+      steps {
+        sh 'pwd'
+        sh 'ls -la'
+      }
+    }
+
     stage('Install') {
       steps {
         dir('python_flask_ecommerce') {
