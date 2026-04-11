@@ -6,8 +6,10 @@ from fastapi import Request
 from app.controllers.user_controller import router as user_router
 import os
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI(title="FastAPI MVC MongoDB")
+
 
 # Static files (CSS, JS)
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
@@ -29,3 +31,5 @@ def home(request: Request):
         "ogani/index.html",
         {"request": request}
     )
+
+Instrumentator().instrument(app).expose(app)
