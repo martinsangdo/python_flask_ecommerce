@@ -27,6 +27,8 @@ app.include_router(user_router)
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     a = 9
+    b = 10
+    
     return templates.TemplateResponse(
         request,
         "ogani/index.html",
