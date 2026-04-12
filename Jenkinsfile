@@ -22,16 +22,16 @@ pipeline {
       }
     }
 
-    stage('Install Dependencies') {
-      steps {
-        sh '''
-        docker run --rm \
-          -v $PWD:/app \
-          -w /app python:3.10 \
-          pip install -r requirements.txt
-        '''
-      }
-    }
+    // stage('Install Dependencies') {
+    //   steps {
+    //     sh '''
+    //     docker run --rm \
+    //       -v $PWD:/app \
+    //       -w /app python:3.10 \
+    //       pip install -r requirements.txt
+    //     '''
+    //   }
+    // }
 
     // stage('Install') {
     //   steps {
@@ -39,17 +39,17 @@ pipeline {
     //   }
     // }
 
-    stage('Build Docker') {
-      steps {
-        sh 'docker build -t fastapi-app .'
-      }
-    }
+    // stage('Build Docker') {
+    //   steps {
+    //     sh 'docker build -t fastapi-app .'
+    //   }
+    // }
 
-    stage('Deploy') {
-      steps {
-        sh 'kubectl rollout restart deployment fastapi-app'
-      }
-    }
+    // stage('Deploy') {
+    //   steps {
+    //     sh 'kubectl rollout restart deployment fastapi-app'
+    //   }
+    // }
 
     // stage('Test') {
     //   steps {
