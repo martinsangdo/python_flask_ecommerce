@@ -32,14 +32,7 @@ def stream_with_history():
             continue_chating = False
         else:
             history.append({"role": "user", "content": user_input})
-
-            # Start streaming
-            stream = client.chat.completions.create(
-                model=MODEL_NAME,
-                messages=history,
-                stream=True,
-            )
-
+            stream = client.chat.completions.create( model=MODEL_NAME, messages=history, stream=True)
             print("AI: ", end="")
             full_response = ""
             for chunk in stream:
@@ -48,10 +41,43 @@ def stream_with_history():
                     content = chunk.choices[0].delta.content
                     print(content, end="", flush=True)
                     full_response += content
-            
             print("\n")
             # Save the full response so the AI remembers it next time
             history.append({"role": "assistant", "content": full_response})
-            print('history', history)
+            # print('history', history)
 
-stream_with_history()
+# stream_with_history()
+
+def summarize_history(old_messages):
+    summary_prompt = f"Summarize the key points of this conversation in 2 sentences: {old_messages}"
+    response = client.chat.completions.create(
+        model=MODEL_NAME,
+        messages=[{"role": "user", "content": summary_prompt}]
+    )
+    return response.choices[0].message.content
+
+#///////////// 
+from pydantic import BaseModel
+class CityCountry(BaseModel):
+    city: str
+    country: str
+
+
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import JsonOutputParser
+from langchain_groq import ChatGroq
+
+parser = JsonOutputParser()
+
+model = ChatGroq(model=MODEL_NAME)
+structured_llm = model.with_structured_output(CityCountry)
+chain = ChatPromptTemplate.from_template("Extract the city and country from: {text}.") | structured_llm
+
+
+#Return ONLY a JSON list of objects with 'city' and 'country' keys.
+# chain = ChatPromptTemplate.from_template("Extract the city and country from: {text}.") | model | parser
+
+
+result = chain.invoke({"text": "I am living in Tokyo or Paris."})
+print(result.city)
+
